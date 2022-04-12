@@ -4,37 +4,26 @@ from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
 from .models import Person, Category
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import PersonSerializer
 
 
-class StarwarsViewSet(viewsets.ModelViewSet):
+class StarwarsAPIList(generics.ListCreateAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-
-    def get_queryset(self):
-        return Person.objects.all()[:3]
-
-    @action(methods=['get'], detail=True)
-    def category(self, request, pk=None):
-        cats = Category.objects.get(pk=pk)
-        return Response({'cats': cats.name})
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-
-# class StarwarsAPIList(generics.ListCreateAPIView):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
-#
-#
-# class StarwarsAPIUpdate(generics.UpdateAPIView):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
-#
-#
-# class StarwarsAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
+class StarwarsAPIUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
+class StarwarsAPIDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    permission_classes = (IsAdminOrReadOnly,)

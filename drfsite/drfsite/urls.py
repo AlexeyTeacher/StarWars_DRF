@@ -18,14 +18,15 @@ from django.urls import path, include
 from rest_framework import routers
 from starwars.views import *
 
-
-router = routers.SimpleRouter()
-router.register(r'starwars', StarwarsViewSet)
+# router = routers.SimpleRouter()
+# router.register(r'starwars', StarwarsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    # path('api/v1/personlist/', StarwarsViewSet.as_view({"get": "list"})),
-    # path('api/v1/personlist/<int:pk>', StarwarsViewSet.as_view({"put": "update"})),
+    path('api/v1/drf_auth/', include('rest_framework.urls')),
+    # path('api/v1/', include(router.urls)),
+    path('api/v1/starwars/', StarwarsAPIList.as_view()),
+    path('api/v1/starwars/<int:pk>', StarwarsAPIUpdate.as_view()),
+    path('api/v1/starwars_delete/<int:pk>', StarwarsAPIDestroy.as_view()),
 
 ]
