@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from starwars.views import StarwarsAPIView
+from starwars.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/personlist/', StarwarsAPIView.as_view()),
-    path('api/v1/personlist/<int:pk>', StarwarsAPIView.as_view()),
+    path('api/v1/personlist/', StarwarsAPIList.as_view()),
+    path('api/v1/personlist/<int:pk>', StarwarsAPIList.as_view()),
 ]

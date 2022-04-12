@@ -8,6 +8,11 @@ from .models import Person
 from .serializers import PersonSerializer
 
 
+class StarwarsAPIList(generics.ListCreateAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+
+
 class StarwarsAPIView(APIView):
     def get(self, request):
         queryset = Person.objects.all().values()
