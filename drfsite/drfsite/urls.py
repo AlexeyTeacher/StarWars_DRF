@@ -20,5 +20,6 @@ from starwars.views import StarwarsAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/starwarslist/', StarwarsAPIView.as_view()),
+    path('api/v1/personlist/', StarwarsAPIView.as_view()),
+    path('api/v1/personlist/<int:pk>', StarwarsAPIView.as_view()),
 ]
