@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
 from starwars.views import *
 
 # router = routers.SimpleRouter()
@@ -28,5 +30,10 @@ urlpatterns = [
     path('api/v1/starwars/', StarwarsAPIList.as_view()),
     path('api/v1/starwars/<int:pk>', StarwarsAPIUpdate.as_view()),
     path('api/v1/starwars_delete/<int:pk>', StarwarsAPIDestroy.as_view()),
+    path('api/v1/auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/token/', TokenVerifyView.as_view(), name='token_verify'),
 
 ]
